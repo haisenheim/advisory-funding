@@ -1,0 +1,27 @@
+
+.material-icons {
+  font-family: 'Material Icons';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 24px;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  display: inline-block;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -moz-font-feature-settings: 'liga';
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.logo{
+    max-width: 90px;
+    max-height: 75px;
+    margin-top: -15px;
+}
+.logo-description{
+    font-size: 18px;
+    font-weight: 900;
+    margin-top: -10px;
+}
