@@ -25,7 +25,7 @@
             <td><?= $dossier->name ?></td>
             <td><?= $dossier->created ?></td>
 
-            <td><?= $dossier->compte?$dossier->compte->name:'-' ?></td>
+            <td><?= $dossier->client?$dossier->client->name:'-' ?></td>
 
             <td><?= $dossier->active?"OUI":"NON" ?></td>
             <td><?= $dossier->archive?"OUI":"NON" ?></td>

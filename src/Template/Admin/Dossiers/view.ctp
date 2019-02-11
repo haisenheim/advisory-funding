@@ -1,22 +1,241 @@
-<?php
-/**
- * @var \App\View\AppView $this
- * @var \App\Model\Entity\Dossier $dossier
- */
-?>
-<nav class="large-3 medium-4 columns" id="actions-sidebar">
-    <ul class="side-nav">
-        <li class="heading"><?= __('Actions') ?></li>
-        <li><?= $this->Html->link(__('Edit Dossier'), ['action' => 'edit', $dossier->id]) ?> </li>
-        <li><?= $this->Form->postLink(__('Delete Dossier'), ['action' => 'delete', $dossier->id], ['confirm' => __('Are you sure you want to delete # {0}?', $dossier->id)]) ?> </li>
-        <li><?= $this->Html->link(__('List Dossiers'), ['action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Dossier'), ['action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Teasers'), ['controller' => 'Teasers', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Teaser'), ['controller' => 'Teasers', 'action' => 'add']) ?> </li>
-        <li><?= $this->Html->link(__('List Produits'), ['controller' => 'Produits', 'action' => 'index']) ?> </li>
-        <li><?= $this->Html->link(__('New Produit'), ['controller' => 'Produits', 'action' => 'add']) ?> </li>
-    </ul>
-</nav>
+<div class="row">
+    <div class="offset-xl-2 col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
+        <div class="card">
+
+            <div class="card-header p-4">
+                <a class="pt-2 d-inline-block btn btn-rounded btn-success btn-xs" href="<?= $this->Url->build(['action'=>'edit', $dossier->id]) ?>"><i class="fa fa-pencil-alt"></i> Editer</a>
+
+                <div class="float-right"> <h3 class="mb-0">Dossier #<?= $dossier->name ?></h3>
+                    Date: <?= $dossier->created ?></div>
+            </div>
+
+            <div class="card-body">
+                <h3 class="mb-1 text-center">INFORMATIONS GENERALES</h3>
+                <hr/>
+                <h3 class="mb-1 text-center">DIAGNOSTIC FINANCIER</h3>
+                <hr/>
+                <h4 class="mb-0 text-danger">COMPTE D'EXPLOITATION</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ANNEE1</th>
+                            <th>ANNEE2</th>
+                            <th>TAUX DE VARIATION</th>
+                            <th>ANNEE3</th>
+                            <th>TAUX DE VARIATION</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>CHIFFRE D'AFFAIRE</th>
+                            <td><?= $dossier->ca1 ?></td>
+                            <td><?= $dossier->ca2 ?></td>
+                            <td><?= $dossier->tauxvari1 ?></td>
+                            <td><?= $dossier->ca3 ?></td>
+                            <td><?= $dossier->tauxvari2 ?></td>
+                        </tr>
+                        <tr>
+                            <th>CHARGES VARIABLES</th>
+                            <td><?= $dossier->cv1 ?></td>
+                            <td><?= $dossier->cv2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->cv3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>MARGE BRUTE</th>
+                            <td><?= $dossier->mb1 ?></td>
+                            <td><?= $dossier->mb2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->mb3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>CHARGES FIXES</th>
+                            <td><?= $dossier->cf1 ?></td>
+                            <td><?= $dossier->cf2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->cf3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>VALEUR AJOUTEE</th>
+                            <td><?= $dossier->va1 ?></td>
+                            <td><?= $dossier->va2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->va3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>SALAIRES</th>
+                            <td><?= $dossier->salaires1 ?></td>
+                            <td><?= $dossier->salaires2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->salaires3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>EXCEDENT BRUT D'EXPLOITATION</th>
+                            <td><?= $dossier->ebe1 ?></td>
+                            <td><?= $dossier->ebe2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->ebe3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th style="font-size: smaller">DOTATIONS AUX AMORTISSEMENTS ET AUX PROVISIONS</th>
+                            <td><?= $dossier->dap1 ?></td>
+                            <td><?= $dossier->dap2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->dap3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>RESULTATS D'EXPLOITATION</th>
+                            <td><?= $dossier->re1 ?></td>
+                            <td><?= $dossier->re2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->re3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>PRODUITS FINANCIERS</th>
+                            <td><?= $dossier->pf1 ?></td>
+                            <td><?= $dossier->pf2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->pf3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>CHARGES FINANCIERES</th>
+                            <td><?= $dossier->cfi1 ?></td>
+                            <td><?= $dossier->cfi2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->cfi3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>RESULTAT FINANCIER</th>
+                            <td><?= $dossier->rf1 ?></td>
+                            <td><?= $dossier->rf2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->rf3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>PRODUIT EXCEPTIONNEL</th>
+                            <td><?= $dossier->pe1 ?></td>
+                            <td><?= $dossier->pe2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->pe3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>CHARGES EXCEPTIONNELLES</th>
+                            <td><?= $dossier->ce1 ?></td>
+                            <td><?= $dossier->ce2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->ce3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>RESULTAT EXCEPTIONNEL</th>
+                            <td><?= $dossier->rex1 ?></td>
+                            <td><?= $dossier->rex2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->rex3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th style="font-size: smaller">RESULTAT COURANT AVANT IMPOT</th>
+                            <td><?= $dossier->rcai1 ?></td>
+                            <td><?= $dossier->rcai2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->rcai3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>IMPOTS</th>
+                            <td><?= $dossier->impots1 ?></td>
+                            <td><?= $dossier->impots2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->impots3 ?></td>
+                            <td>-</td>
+                        </tr>
+                        <tr>
+                            <th>RESULTAT NET</th>
+                            <td><?= $dossier->rn1 ?></td>
+                            <td><?= $dossier->rn2 ?></td>
+                            <td>-</td>
+                            <td><?= $dossier->rn3 ?></td>
+                            <td>-</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <hr/>
+                <h4 class="mb-0 text-danger">GRANDS EQUILIBRES FINANCIERS</h4>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>ANNEE1</th>
+                            <th>ANNEE2</th>
+                            <th>ANNEE3</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>CAPITAUX PROPRES</th>
+                            <td><?= $dossier->capitaux_propres1 ?></td>
+                            <td><?= $dossier->capitaux_propres2 ?></td>
+                            <td><?= $dossier->capitaux_propres3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>RATIO D'AUTONOMIE FINANCIERE</th>
+                            <td><?= $dossier->ratio_auto_fin1 ?></td>
+                            <td><?= $dossier->ratio_auto_fin2 ?></td>
+                            <td><?= $dossier->ratio_auto_fin3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>RATIO D'ENDETTEMENT NET</th>
+                            <td><?= $dossier->ratio_endettement_net1 ?></td>
+                            <td><?= $dossier->ratio_endettement_net2 ?></td>
+                            <td><?= $dossier->ratio_endettement_net3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>RATIO DE LIQUIDITE GENERALE</th>
+                            <td><?= $dossier->ratio_liquidite_gen1 ?></td>
+                            <td><?= $dossier->ratio_liquidite_gen2 ?></td>
+                            <td><?= $dossier->ratio_liquidite_gen3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>RATIO DE COUVERTURE DES EMPLOIS STABLES</th>
+                            <td><?= $dossier->ratio_couv_emploi_stables1 ?></td>
+                            <td><?= $dossier->ratio_couv_emploi_stables2 ?></td>
+                            <td><?= $dossier->ratio_couv_emploi_stables3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>RATIO DE VETUSTE DES IMMOBILISATIONS</th>
+                            <td><?= $dossier->ratio_vetuite_immo1 ?></td>
+                            <td><?= $dossier->ratio_vetuite_immo2 ?></td>
+                            <td><?= $dossier->ratio_vetuite_immo3 ?></td>
+                        </tr>
+                        <tr>
+                            <th>DELAIS DE PAIEMENTS DES CLIENTS</th>
+                            <td><?= $dossier->delais_paie_clients1 ?></td>
+                            <td><?= $dossier->delais_paie_clients2 ?></td>
+                            <td><?= $dossier->delais_paie_clients3 ?></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
 <div class="dossiers view large-9 medium-8 columns content">
     <h3><?= h($dossier->name) ?></h3>
     <table class="vertical-table">

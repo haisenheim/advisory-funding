@@ -49,8 +49,8 @@ class UsersTable extends Table
             'foreignKey' => 'role_id',
             'joinType' => 'INNER'
         ]);
-        $this->hasOne('Comptes', [
-            'foreignKey' => 'user_id',
+        $this->hasOne('Clients', [
+            'foreignKey' => 'client_id',
             'joinType' => 'Left'
         ]);
 

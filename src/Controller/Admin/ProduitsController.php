@@ -22,7 +22,8 @@ class ProduitsController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Sectors']
+            'contain' => ['Sectors'],
+            'limit'=>10000
         ];
         $produits = $this->paginate($this->Produits);
 

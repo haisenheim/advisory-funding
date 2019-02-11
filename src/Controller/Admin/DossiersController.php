@@ -21,7 +21,7 @@ class DossiersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Comptes', 'Autors', 'Experts']
+            'contain' => ['Clients', 'Autors', 'Experts']
         ];
         $dossiers = $this->paginate($this->Dossiers);
 
@@ -38,7 +38,7 @@ class DossiersController extends AppController
     public function view($id = null)
     {
         $dossier = $this->Dossiers->get($id, [
-            'contain' => ['Owners', 'Comptes', 'Autors', 'Timmobilisations', 'Mfinancements', 'Experts', 'Produits', 'Teasers']
+            'contain' => ['Autors','Clients', 'Segments', 'Concurrents' , 'Produits.Sectors', 'Teasers']
         ]);
 
         $this->set('dossier', $dossier);
@@ -62,11 +62,40 @@ class DossiersController extends AppController
             $this->Flash->error(__('The dossier could not be saved. Please, try again.'));
         }
 
-        $comptes = $this->Dossiers->Comptes->find()->all();
+        $comptes = $this->Dossiers->Clients->find()->all();
         $produits = $this->Dossiers->Produits->find()->all();
         $sectors = $this->Dossiers->Produits->Sectors->find()->all();
         $this->set(compact('dossier',  'comptes',  'sectors',  'produits'));
     }
+
+    public function saveImg(){
+        $dossier_id = $this->request->getData('dossier_id');
+        $photo = $this->request->getData('photo');
+        $dossier = $this->Dossiers->get($dossier_id);
+        if(!empty($photo)){
+            $file = $photo;
+            $ext = substr(strtolower(strrchr($file['name'],'.')),1);
+            $arr_ext = array('jpg','png','jpeg','gif');
+            if(in_array($ext,$arr_ext)){
+                if(!file_exists(WWW_ROOT.'img'.DS.'dossiers')){
+                    mkdir(WWW_ROOT.'img'.DS.'dossiers');
+                }
+
+                if(file_exists(WWW_ROOT.'img'.DS.'dossiers'.DS.$dossier->id.'.'.$ext)){
+                    unlink(WWW_ROOT.'img'.DS.'dossiers'.DS.$dossier->id.'.'.$ext);
+                }
+                // $name = $file['name'].time();
+                $name = $dossier->id;
+
+                move_uploaded_file($file['tmp_name'], WWW_ROOT.'img'.DS.'dossiers'.DS.$name.'.'.$ext);
+
+                $dossier->imageUri = 'dossiers/'.$name.'.'.$ext;
+                $this->Dossiers->save($dossier);
+            }
+        }
+    }
+
+
 
     public function saveJson(){
         if($this->request->is('ajax')){
@@ -78,12 +107,15 @@ class DossiersController extends AppController
             $compte_expl=$this->request->getData('compte_expl');
             $grd_eq_fin=$this->request->getData('grd_eq_fin');
             $ratios = $this->request->getData('ratios');
-            $analyse_diag_int=$this->request->getData('analyse_diag_int');
-            $analyse_diag_ext=$this->request->getData('analyse_diag_ext');
+            $analyse_diag_int=$this->request->getData('ana_disg_int');
+            $analyse_diag_ext=$this->request->getData('ana_diag_exter');
             $segments = $this->request->getData('segments');
             $concurrents=$this->request->getData('concurrents');
             $diag_obj_strat=$this->request->getData('diag_obj_strat');
             $plan_dev_strat=$this->request->getData('plan_dev_strat');
+
+            //debug($this->request->getData('dossier'));
+            //die();
 
 
 
@@ -174,6 +206,7 @@ class DossiersController extends AppController
             $dossier->rentabilite_capitaux_propres3=$ratios['rentabilite_capitaux_propres3'];
 
             $dossier->analyse_diag_interne= $analyse_diag_int;
+            //$dossier->analyse_diag_interne= "une description du diagnostic interne";
             $dossier->analyse_diag_externe=$analyse_diag_ext;
             $dossier->plan_dev_strat=$plan_dev_strat;
             $dossier->synt_op=$diag_obj_strat['synop'];
@@ -182,8 +215,7 @@ class DossiersController extends AppController
             $dossier->synt_faibl=$diag_obj_strat['synfaib'];
             $dossier->def_obj_strat=$diag_obj_strat['def_obj_strat'];
 
-            // $dossier->client_id = $this->Auth
-            //debug($answers); die();
+
             if($dossier = $this->Dossiers->save($dossier)){
                 $this->loadModel('DossiersProduits');
                // $this->loadModel('DossiersTimmobilisations');
@@ -235,6 +267,7 @@ class DossiersController extends AppController
                     $concurrent->ou=$concurrents[$i]['ou'];
                     $concurrent->combien=$concurrents[$i]['combien'];
                     $concurrent->pourquoi=$concurrents[$i]['pourquoi'];
+                    //$concurrent->pourquoi="Pourquoi, pourquoi...";
                     $concurrent->ca=$concurrents[$i]['ca'];
                     $concurrent->salaires=$concurrents[$i]['sal'];
                     $concurrent->ebe=$concurrents[$i]['ebe'];
@@ -253,6 +286,7 @@ class DossiersController extends AppController
                     $concurrent->quand=$segments[$i]['quand'];
                     $concurrent->ou=$segments[$i]['ou'];
                     $concurrent->combien=$segments[$i]['combien'];
+                   // $concurrent->pourquoi="Pourquoi, pourquoi...";
                     $concurrent->pourquoi=$segments[$i]['pourquoi'];
                     $segment = $this->Segments->save($concurrent);
                 }
@@ -287,7 +321,7 @@ class DossiersController extends AppController
                 }
 
             }
-            $id=$dossier->id;
+           // $id=$dossier->id;
             $this->set(compact('dossier'));
             $this->set('_serialize','dossier');
         }

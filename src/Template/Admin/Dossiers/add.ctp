@@ -4,6 +4,18 @@
     <div class="card-header">
         <h3>NOUVEAU DOSSIER</h3>
         <hr/>
+
+
+
+
+        <div class="progress" style="display:none;">
+            <div class="progress-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+
+            </div>
+        </div>
+
+        <hr/>
+
         <div class="stepwizard">
             <div class="stepwizard-row setup-panel">
                 <div class="stepwizard-step">
@@ -99,9 +111,8 @@
 
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div>
-                                                <label for="sector_id">IMAGE DU PROJET</label>
-
-
+                                                <label for="photo">IMAGE DU PROJET</label>
+                                                <input type="file" id="photo" class="form-control" />
                                             </div>
                                         </div>
                                     </div>
@@ -1463,7 +1474,7 @@
         });
     });
 
-    var url = '<?= $this->Url->build(['controller'=>'Dossiers','action'=>'saveJson']) ?>';
+    var saveurl = '<?= $this->Url->build(['controller'=>'Dossiers','action'=>'saveJson']) ?>';
     var redirectUrl = '<?= $this->Url->build(['controller'=>'Dossiers','action'=>'view']) ?>';
     $('#btn-save').click(function(e){
         e.preventDefault();
@@ -1480,7 +1491,7 @@
                 elt.ou=$(this).data('ou');
                 elt.quand=$(this).data('quand');
                 elt.combien=$(this).data('combien');
-                elt.pourquoi=$(this).data('pourqoui');
+                elt.pourquoi=$(this).data('pourquoi');
                 segments.push(elt);
         });
 
@@ -1494,7 +1505,7 @@
             elt.ou=$(this).data('ou');
             elt.quand=$(this).data('quand');
             elt.combien=$(this).data('combien');
-            elt.pourquoi=$(this).data('pourqoui');
+            elt.pourquoi=$(this).data('pourquoi');
             elt.ca=$(this).data('ca');
             elt.cv=$(this).data('cv');
             elt.cf=$(this).data('cf');
@@ -1662,15 +1673,64 @@
         console.log('analyse diag inter: '+ana_diag_int);
         console.log('analyse diag exter: '+ana_diag_exter);
         console.log('ratios: '+ ratios);*/
+        var photo = document.getElementById("photo").files[0].name;
+        var form_data = new FormData();
+        var ext = photo.split('.').pop().toLowerCase();
+        if(jQuery.inArray(ext, ['gif','png','jpg','jpeg']) == -1)
+        {
+            alert("Fichier image invalide !!!");
+        }
+        var oFReader = new FileReader();
+        oFReader.readAsDataURL(document.getElementById("photo").files[0]);
+        var f = document.getElementById("photo").files[0];
+        var fsize = f.size||f.fileSize;
+        if(fsize > 2000000)
+        {
+            alert("Image beaucoup trop volumineuse !!!");
+        }else{
+            form_data.append("photo", document.getElementById('photo').files[0]);
+            /*form_data.append("answers", reponses);
+            form_data.append("dossier", dossier);
+            form_data.append("produits", produits);
+            form_data.append("teaser", teaser);
+            form_data.append("compte_expl", compte_expl);
+            form_data.append("concurrents", concurrents);
+            form_data.append("segments", segments);
+            form_data.append("grd_eq_fin", grd_eq_fin);
+            form_data.append("analyse_env", analyse_env);
+            form_data.append("ana_diag_int", ana_diag_int);
+            form_data.append("ana_diag_exter", ana_diag_exter);
+            form_data.append("ratios", ratios);
+            form_data.append("plan_dev_strat", plan_dev_strat);
+            form_data.append("diag_obj_strat", diag_obj_strat);*/
+        }
 
 
         $.ajax({
-            url:url,
+
+            /*xhr: function() {
+                var xhr = new window.XMLHttpRequest();
+                xhr.upload.addEventListener("progress", function(evt) {
+                    if (evt.lengthComputable) {
+                        var percentComplete = evt.loaded / evt.total;
+                        percentComplete = parseInt(percentComplete * 100);
+                        $('.progress-bar').css('width',percentComplete+"%");
+                        $('.progress-bar').html(percentComplete+"%");
+                        if (percentComplete === 100) {
+                           // alert("Chargement des donnees termine !!!");
+                        }
+                    }
+                }, false);
+                return xhr;
+            },*/
+
+            url:saveurl,
             type:'Post',
             dataType:'JSON',
-            data:{_csrf:$('#csrf').val(), answers:reponses, dossier:dossier,produits:produits,teaser:teaser,compte_expl:compte_expl,
-                concurrents:concurrents,segments:segments,grd_eq_fin:grd_eq_fin,analyse_env:analyse_env,analyse_diag_int:ana_diag_int,analyse_diag_ext:ana_diag_exter,
-                ratios:ratios,plan_dev_strat:plan_dev_strat,diag_obj_strat:diag_obj_strat},
+            //processData:false,
+            //contentType:false,
+            data:{answers:reponses, dossier:dossier,produits:produits,compte_expl:compte_expl, teaser:teaser, concurrents:concurrents, segments:segments,grd_eq_fin:grd_eq_fin,
+            analyse_env:analyse_env, ana_disg_int:ana_diag_int, ana_diag_exter:ana_diag_exter,ratios:ratios,plan_dev_strat:plan_dev_strat,diag_obj_strat:diag_obj_strat},
             beforeSend:function(xhr){
                 xhr.setRequestHeader('X-CSRF-Token',$('#csrf').val());
                 console.log("requete declenchee!!!!");
@@ -1679,6 +1739,26 @@
             success: function(data){
                // $('#btn-save').show();
                // window.location.replace(redirectUrl+"/"+data);
+                if(data.id!=null){
+                    form_data.append("dossier_id",data.id);
+                    $.ajax({
+                        url:"<?= $this->Url->build(['controller'=>'Dossiers', 'action'=>'saveImg']) ?>",
+                        type:'Post',
+                        dataType:'JSON',
+                        processData:false,
+                        contentType:false,
+                        data:form_data,
+                        beforeSend:function(xhr){
+                            xhr.setRequestHeader('X-CSRF-Token',$('#csrf').val());
+                            //console.log("requete declenchee!!!!");
+                            // $('#btn-save').hide();
+                        },
+                        success: function(d){
+                            //window.location.replace(redirectUrl+"/"+data);
+                            console.log(d);
+                        }
+                    });
+                }
                 console.log(data);
             },
             Error:function(){
@@ -1689,3 +1769,4 @@
 
     });
 </script>
+

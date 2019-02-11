@@ -50,8 +50,8 @@ class DossiersTable extends Table
         $this->addBehavior('Timestamp');
 
 
-        $this->belongsTo('Comptes', [
-            'foreignKey' => 'compte_id',
+        $this->belongsTo('Clients', [
+            'foreignKey' => 'client_id',
             'joinType' => 'Left'
         ]);
         $this->belongsTo('Autors', [
@@ -68,7 +68,18 @@ class DossiersTable extends Table
             'foreignKey' => 'expert_id',
             'joinType' => 'Left'
         ]);
-        $this->hasMany('Teasers', [
+
+        $this->hasMany('Segments', [
+            'foreignKey' => 'dossier_id',
+            'joinType' => 'Left'
+        ]);
+
+        $this->hasMany('Concurrents', [
+            'foreignKey' => 'dossier_id',
+            'joinType' => 'Left'
+        ]);
+
+        $this->hasOne('Teasers', [
             'foreignKey' => 'dossier_id'
         ]);
         $this->belongsToMany('Produits', [
@@ -443,7 +454,7 @@ class DossiersTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['compte_id'], 'Comptes'));
+        $rules->add($rules->existsIn(['compte_id'], 'Clients'));
         $rules->add($rules->existsIn(['autor_id'], 'Autors'));
         return $rules;
     }

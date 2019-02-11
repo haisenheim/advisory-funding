@@ -34,6 +34,11 @@ class ConcurrentsTable extends Table
         $this->setTable('concurrents');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->belongsTo('Dossiers', [
+            'foreignKey' => 'dossier_id',
+            'joinType' => 'Left'
+        ]);
     }
 
     /**
@@ -54,70 +59,9 @@ class ConcurrentsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->scalar('quoi')
-            ->maxLength('quoi', 255)
-            ->requirePresence('quoi', 'create')
-            ->notEmpty('quoi');
 
-        $validator
-            ->scalar('ou')
-            ->maxLength('ou', 100)
-            ->requirePresence('ou', 'create')
-            ->notEmpty('ou');
 
-        $validator
-            ->scalar('quand')
-            ->maxLength('quand', 155)
-            ->requirePresence('quand', 'create')
-            ->notEmpty('quand');
 
-        $validator
-            ->scalar('combien')
-            ->maxLength('combien', 155)
-            ->requirePresence('combien', 'create')
-            ->notEmpty('combien');
-
-        $validator
-            ->scalar('pourquoi')
-            ->maxLength('pourquoi', 155)
-            ->requirePresence('pourquoi', 'create')
-            ->notEmpty('pourquoi');
-
-        $validator
-            ->integer('ca')
-            ->requirePresence('ca', 'create')
-            ->notEmpty('ca');
-
-        $validator
-            ->integer('cv')
-            ->requirePresence('cv', 'create')
-            ->notEmpty('cv');
-
-        $validator
-            ->integer('marge_brute')
-            ->requirePresence('marge_brute', 'create')
-            ->notEmpty('marge_brute');
-
-        $validator
-            ->integer('cf')
-            ->requirePresence('cf', 'create')
-            ->notEmpty('cf');
-
-        $validator
-            ->integer('va')
-            ->requirePresence('va', 'create')
-            ->notEmpty('va');
-
-        $validator
-            ->integer('salaires')
-            ->requirePresence('salaires', 'create')
-            ->notEmpty('salaires');
-
-        $validator
-            ->integer('ebe')
-            ->requirePresence('ebe', 'create')
-            ->notEmpty('ebe');
 
         return $validator;
     }

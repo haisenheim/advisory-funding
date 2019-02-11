@@ -111,38 +111,7 @@
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item dropdown connection">
-                            <a class="nav-link" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> <i class="fas fa-fw fa-th"></i> </a>
-                            <ul class="dropdown-menu dropdown-menu-right connection-dropdown">
-                                <li class="connection-list">
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/github.png" alt="" > <span>Github</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dribbble.png" alt="" > <span>Dribbble</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/dropbox.png" alt="" > <span>Dropbox</span></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/bitbucket.png" alt=""> <span>Bitbucket</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/mail_chimp.png" alt="" ><span>Mail chimp</span></a>
-                                        </div>
-                                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 ">
-                                            <a href="#" class="connection-item"><img src="assets/images/slack.png" alt="" > <span>Slack</span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li>
-                                    <div class="conntection-footer"><a href="#">More</a></div>
-                                </li>
-                            </ul>
-                        </li>
+
                         <li class="nav-item dropdown nav-user">
                             <a class="nav-link nav-user-img" href="#" id="navbarDropdownMenuLink2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><img src="assets/images/avatar-1.jpg" alt="" class="user-avatar-md rounded-circle"></a>
                             <div class="dropdown-menu dropdown-menu-right nav-user-dropdown" aria-labelledby="navbarDropdownMenuLink2">
@@ -209,6 +178,25 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="<?= $this->Url->build(['controller'=>'Dossiers','action'=>'index']) ?>" aria-expanded="false" data-target="#submenu-2" aria-controls="submenu-2"><i class="fa fa-fw fa-folder-open"></i>DOSSIERS</a>
+                            </li>
+                            <li class="nav-item ">
+                                <a class="nav-link" href="#" data-toggle="collapse" aria-expanded="false" data-target="#submenu-3" aria-controls="submenu-3"><i class="fa fa-fw fa-cogs"></i>PARAMETRAGES <span class="badge badge-success"></span></a>
+                                <div id="submenu-3" class="collapse submenu" style="">
+                                    <ul class="nav flex-column">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="<?= $this->Url->build(['controller'=>'Clients','action'=>'index']) ?>">Comptes Clients</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="<?= $this->Url->build(['controller'=>'Sectors','action'=>'index']) ?>">Secteurs</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="<?= $this->Url->build(['controller'=>'Produits','action'=>'index']) ?>">Produits</a>
+                                        </li>
+
+
+
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>

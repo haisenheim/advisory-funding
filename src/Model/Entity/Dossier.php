@@ -231,4 +231,132 @@ class Dossier extends Entity
         'expert' => true,
         'teasers' => true
     ];
+
+
+    protected function _getFrng1(){
+        return $this->ress_durable1 - $this->actifs_immo1;
+    }
+
+    protected function _getFrng2(){
+        return $this->ress_durable2 - $this->actifs_immo2;
+    }
+
+    protected function _getFrng3(){
+        return $this->ress_durable3 - $this->actifs_immo3;
+    }
+
+    protected function _getTauxvari1(){
+        return round(($this->ca2 - $this->ca1)*100/$this->ca1,2) .'%';
+    }
+
+    protected function _getTauxvari2(){
+        return round(($this->ca3 - $this->ca2)*100/$this->ca2,2) .'%';
+    }
+
+    protected function _getBfr1(){
+        return ($this->creances1 + $this->stocks1) - $this->dettes1;
+    }
+
+    protected function _getBfr2(){
+        return ($this->creances2 + $this->stocks2) - $this->dettes2;
+    }
+
+    protected function _getBfr3(){
+        return ($this->creances3 + $this->stocks3) - $this->dettes3;
+    }
+
+    protected function _getMb1(){
+        return ($this->ca1 - $this->cv1);
+    }
+
+    protected function _getMb2(){
+        return ($this->ca2 - $this->cv2);
+    }
+    protected function _getMb3(){
+        return ($this->ca3 - $this->cv3);
+    }
+
+    protected function _getVa1(){
+        return $this->_getMb1() - $this->cf1;
+    }
+
+    protected function _getVa2(){
+        return $this->_getMb2() - $this->cf2;
+    }
+
+    protected function _getVa3(){
+        return $this->_getMb3() - $this->cf3;
+    }
+
+    protected function _getEbe1(){
+        return $this->_getVa1() - $this->salaires1;
+    }
+
+    protected function _getEbe2(){
+        return $this->_getVa2() - $this->salaires2;
+    }
+
+    protected function _getEbe3(){
+        return $this->_getVa3() - $this->salaires3;
+    }
+
+    protected function _getRe1(){
+        return $this->_getEbe1() - $this->dap1;
+    }
+
+    protected function _getRe2(){
+        return $this->_getEbe2() - $this->dap2;
+    }
+
+    protected function _getRe3(){
+        return $this->_getEbe3() - $this->dap3;
+    }
+
+    protected function _getRf1(){
+       return $this->pf1 - $this->cfi1;
+    }
+
+    protected function _getRf2(){
+        return $this->pf2 - $this->cfi2;
+    }
+
+    protected function _getRf3(){
+        return $this->pf3 - $this->cfi3;
+    }
+
+    protected function _getRex1(){
+        return $this->pe1 - $this->ce1;
+    }
+
+    protected function _getRex2(){
+        return $this->pe2 - $this->ce2;
+    }
+
+    protected function _getRex3(){
+        return $this->pe3 - $this->ce3;
+    }
+
+    protected function _getRcai1(){
+        return $this->_getRe1() + $this->_getRf1() + $this->_getRex1();
+    }
+
+    protected function _getRcai2(){
+        return $this->_getRe2() + $this->_getRf2() + $this->_getRex2();
+    }
+
+    protected function _getRcai3(){
+        return $this->_getRe3() + $this->_getRf3() + $this->_getRex3();
+    }
+
+    protected function _getRn1(){
+        return $this->_getRcai1() - $this->impots1;
+    }
+
+    protected function _getRn2(){
+        return $this->_getRcai2() - $this->impots2;
+    }
+
+    protected function _getRn3(){
+        return $this->_getRcai3() - $this->impots3;
+    }
 }

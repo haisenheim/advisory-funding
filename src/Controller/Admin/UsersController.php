@@ -21,7 +21,7 @@ class UsersController extends AppController
     public function index()
     {
         $this->paginate = [
-            'contain' => ['Roles', 'Comptes']
+            'contain' => ['Roles', 'CLients']
         ];
         $users = $this->paginate($this->Users);
 
@@ -38,7 +38,7 @@ class UsersController extends AppController
     public function view($id = null)
     {
         $user = $this->Users->get($id, [
-            'contain' => ['Roles', 'Comptes']
+            'contain' => ['Roles', 'Clients']
         ]);
 
         $this->set('user', $user);
@@ -61,8 +61,6 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $clients = $this->Users->Clients->find('list', ['limit' => 200]);
         $nations = $this->Users->Nations->find('list', ['limit' => 200]);
         $sectors = $this->Users->Sectors->find('list', ['limit' => 200]);
         $this->set(compact('user', 'roles', 'clients', 'nations', 'sectors'));
@@ -89,8 +87,6 @@ class UsersController extends AppController
             }
             $this->Flash->error(__('The user could not be saved. Please, try again.'));
         }
-        $roles = $this->Users->Roles->find('list', ['limit' => 200]);
-        $clients = $this->Users->Clients->find('list', ['limit' => 200]);
         $nations = $this->Users->Nations->find('list', ['limit' => 200]);
         $sectors = $this->Users->Sectors->find('list', ['limit' => 200]);
         $this->set(compact('user', 'roles', 'clients', 'nations', 'sectors'));

@@ -2,6 +2,7 @@
 namespace App\Controller\Admin;
 
 use App\Controller\AppController;
+use Cake\Collection\Collection;
 
 /**
  * Sectors Controller
@@ -20,7 +21,7 @@ class SectorsController extends AppController
      */
     public function index()
     {
-        $sectors = $this->paginate($this->Sectors);
+        $sectors = $this->paginate($this->Sectors->find()->contain(['Produits']));
 
         $this->set(compact('sectors'));
     }
@@ -35,11 +36,66 @@ class SectorsController extends AppController
     public function view($id = null)
     {
         $sector = $this->Sectors->get($id, [
-            'contain' => ['Produits', 'Users']
+            'contain' => ['Produits']
         ]);
 
         $this->set('sector', $sector);
     }
+
+
+    public function objectifs_experts(){
+        $this->loadModel('MoisSectors');
+        $ms = $this->MoisSectors->find()->contain(['Mois','Sectors'])->all();
+        $col = new Collection($ms);
+        $ms= $col->groupBy(function($q){
+            return $q->sector->name;
+        });
+        $ms=$ms->toArray();
+        //debug($ms); die();
+        $this->set(compact('ms'));
+    }
+
+
+
+    public function perform($id = null)
+    {
+
+        if($this->request->is('ajax')){
+            $sectors = $this->request->getData('sectors');
+            //debug($sectors); die();
+            $this->loadModel('MoisSectors');
+            foreach ($sectors as $sector) {
+              $ms = $this->MoisSectors->find()->where(['moi_id'=>$sector['moi_id'],'sector_id'=>$sector['sector_id']])->first();
+                if(!empty($ms)){
+                    if($sector['value']){
+                        $ms->objectif=$sector['value'];
+                        $this->MoisSectors->save($ms);
+                    }
+
+                }else{
+                    $ms=$this->MoisSectors->newEntity();
+                    $ms->sector_id=$sector['sector_id'];
+                    $ms->moi_id = $sector['moi_id'];
+                    $ms->objectif=$sector['value'];
+                    $ms=$this->MoisSectors->save($ms);
+                }
+            }
+
+            $this->set(compact('ms'));
+            $this->set('_serialize',true);
+
+        }
+
+    }
+
+    public function projecter(){
+
+        $sectors = $this->Sectors->find()->contain(['mois'])->all();
+
+        $this->set(compact('sectors'));
+    }
+
+
 
     /**
      * Add method

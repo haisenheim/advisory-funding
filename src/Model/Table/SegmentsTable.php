@@ -34,6 +34,11 @@ class SegmentsTable extends Table
         $this->setTable('segments');
         $this->setDisplayField('name');
         $this->setPrimaryKey('id');
+
+        $this->belongsTo('Dossiers', [
+            'foreignKey' => 'dossier_id',
+            'joinType' => 'Left'
+        ]);
     }
 
     /**
@@ -54,38 +59,9 @@ class SegmentsTable extends Table
             ->requirePresence('name', 'create')
             ->notEmpty('name');
 
-        $validator
-            ->scalar('quoi')
-            ->maxLength('quoi', 255)
-            ->requirePresence('quoi', 'create')
-            ->notEmpty('quoi');
 
-        $validator
-            ->scalar('ou')
-            ->maxLength('ou', 100)
-            ->requirePresence('ou', 'create')
-            ->notEmpty('ou');
 
-        $validator
-            ->scalar('quand')
-            ->maxLength('quand', 100)
-            ->requirePresence('quand', 'create')
-            ->notEmpty('quand');
 
-        $validator
-            ->integer('combien')
-            ->requirePresence('combien', 'create')
-            ->notEmpty('combien');
-
-        $validator
-            ->scalar('pourquoi')
-            ->requirePresence('pourquoi', 'create')
-            ->notEmpty('pourquoi');
-
-        $validator
-            ->scalar('solutions')
-            ->requirePresence('solutions', 'create')
-            ->notEmpty('solutions');
 
         return $validator;
     }

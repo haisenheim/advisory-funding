@@ -10,7 +10,9 @@ use Cake\Validation\Validator;
  * Produits Model
  *
  * @property \App\Model\Table\SectorsTable|\Cake\ORM\Association\BelongsTo $Sectors
- * @property \App\Model\Table\DossiersTable|\Cake\ORM\Association\BelongsToMany $Dossiers
+ * @property \App\Model\Table\ActionsTable|\Cake\ORM\Association\HasMany $Actions
+ * @property \App\Model\Table\DossiersTable|\Cake\ORM\Association\HasMany $Dossiers
+ * @property \App\Model\Table\RisquesTable|\Cake\ORM\Association\BelongsToMany $Risques
  *
  * @method \App\Model\Entity\Produit get($primaryKey, $options = [])
  * @method \App\Model\Entity\Produit newEntity($data = null, array $options = [])
@@ -41,6 +43,22 @@ class ProduitsTable extends Table
         $this->belongsTo('Sectors', [
             'foreignKey' => 'sector_id'
         ]);
+
+        /*$this->hasMany('Dossiers', [
+            'foreignKey' => 'produit_id'
+        ]);*/
+
+        $this->hasMany('ProduitsRisques', [
+            'foreignKey' => 'produit_id'
+        ]);
+
+
+        $this->belongsToMany('Risques', [
+            'foreignKey' => 'produit_id',
+            'targetForeignKey' => 'risque_id',
+            'joinTable' => 'produits_risques'
+        ]);
+
         $this->belongsToMany('Dossiers', [
             'foreignKey' => 'produit_id',
             'targetForeignKey' => 'dossier_id',
@@ -60,20 +78,6 @@ class ProduitsTable extends Table
             ->integer('id')
             ->allowEmpty('id', 'create');
 
-        $validator
-            ->scalar('name')
-            ->maxLength('name', 125)
-            ->allowEmpty('name');
-
-        $validator
-            ->boolean('service')
-            ->allowEmpty('service');
-
-        $validator
-            ->boolean('active')
-            ->requirePresence('active', 'create')
-            ->notEmpty('active');
-
         return $validator;
     }
 
@@ -86,7 +90,6 @@ class ProduitsTable extends Table
      */
     public function buildRules(RulesChecker $rules)
     {
-        $rules->add($rules->existsIn(['sector_id'], 'Sectors'));
 
         return $rules;
     }
